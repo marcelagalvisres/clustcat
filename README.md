@@ -1,5 +1,6 @@
-# clustcat
-Package to cluster categorical variables
+# clustcat: On clustering categories of categorical variables in GLM
+
+This package creates an alternative representation of the categorical variables in a dataset by clustering them using a logistic regression guided by out-of-sample accuracy as in Carrizosa etal. (2020)
 
 
 # Generate a dataset with continuous and categorical variables
