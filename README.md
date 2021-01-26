@@ -1,10 +1,10 @@
 # clustcat
 Package to cluster categorical variables
-#example clustcat
 
-#Generate a dataset with continuous and categorical variables
-set.seed(12345)
-n <- 5000
+
+# Generate a dataset with continuous and categorical variables
+`<addr>` set.seed(12345)
+`<addr>` n <- 5000
 p <- 3
 j <- 2
 K_1 <- 5
@@ -50,3 +50,6 @@ library(clustcat)
 ordered = ordered_categ(train,j,data)
 feasible_clusterings(train,j,data)
 data_final = clustered_model(train,j,data)
+
+# References
+Carrizosa, E., Galvis Restrepo, M., and Romero Morales, D. (2019). On clustering categories of categorical predictors in generalized linear models. Working paper, Copenhagen Business School.
