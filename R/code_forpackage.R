@@ -214,9 +214,11 @@ clustered_model = function(train,j,data){
 
     for(i in 1:length(var)){
       best[[i]] = setDT(accuracy[[i]],keep.rownames = TRUE)
+      colnames(best[[i]])[ncol(best[[i]])] = "accuracy"
       best[[i]]$number = substr(best[[i]]$rn,3,3)
-      best[[i]]$rank = rank(-best[[i]]$X4,ties.method = "first")
+      best[[i]]$rank = rank(-best[[i]]$accuracy,ties.method = "first")
     }
+
 
 
     tgrasp <- 3
