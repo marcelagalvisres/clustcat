@@ -1,0 +1,17 @@
+Package: clustcat
+Title: Clustering Categorical Variables
+Version: 0.0.0.1
+Authors@R: person("Marcela", "Galvis", email = "mgr.eco@cbs.dk", role = c("aut", "cre"))
+Description: A method to cluster categorical variables for use with Logistic regression. This package is currently in beta, and we
+    expect to make continual improvements to its performance and usability.
+    PRs and issue reports are very much welcome.
+Depends: R (>= 4.0.3),
+Imports: fastDummies,
+        data.table,
+        magrittr,
+        dplyr,
+        MLmetrics,
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
