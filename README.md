@@ -6,7 +6,7 @@ This package creates an alternative representation of the categorical variables 
 # Generate a dataset with continuous and categorical variables
 ```Rcode
 set.seed(12345)
-`<addr>` n <- 5000
+n <- 5000
 p <- 3
 j <- 2
 K_1 <- 5
