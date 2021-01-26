@@ -2,9 +2,12 @@
 
 This package creates an alternative representation of the categorical variables in a dataset by clustering them using a logistic regression guided by out-of-sample accuracy as in Carrizosa etal. (2020)
 
+# To install this package, run the following command in R (assuming you have installed devtools).
+```Rcode
+devtools::install_github("grf-labs/sufrep")
 
 # Generate a dataset with continuous and categorical variables
-```Rcode
+
 set.seed(12345)
 n <- 5000
 p <- 3
