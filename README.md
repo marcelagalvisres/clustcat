@@ -40,10 +40,8 @@ table(Y)
 
 data = data.frame(X1,X2,Z,Y)
 
-#Vector of coefficients to get the order
-smp_size <- floor(0.7 * nrow(data))
-
 ## Divide in training and testing
+smp_size <- floor(0.7 * nrow(data))
 set.seed(123)
 train_ind <- sample(seq_len(nrow(data)), size = smp_size)
 
@@ -52,9 +50,9 @@ test <- data[-train_ind, ]
 
 library(clustcat)
 
-ordered = ordered_categ(train,j,data)
-feasible_clusterings(train,j,data)
-data_final = clustered_model(train,j,data)
+ordered = ordered_categ(train,j,data) #extract the order for the categories
+fesible = feasible_clusterings(train,j,data) #create feasible clusterings
+data_final = clustered_model(train,j,data) #create dataset with the chosen feasible clusterings after GRASP algorithm
 ```
 # References
 Carrizosa, E., Galvis Restrepo, M., and Romero Morales, D. (2019). On clustering categories of categorical predictors in generalized linear models. Working paper, Copenhagen Business School.
