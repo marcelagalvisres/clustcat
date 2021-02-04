@@ -20,7 +20,9 @@
 
 ####1.a. Extract coefficients#####
 ordered_categ <- function(train,j,data) {
-  coef =  setDT(data.frame(glm(Y~.,train,family="binomial")$coef), keep.rownames= TRUE)[]
+  model = glm(Y~.,train,family="binomial",maxit=100)
+  coef =  setDT(data.frame(coef(summary(model))), keep.rownames= TRUE)[]
+  coef = coef[,1:2]
   colnames(coef) = c("variables","coef")
   coef$variables <- sub("(.{2})(_*)","\\1_\\2",coef$variables)
   X = dummy_cols(data.frame(data[,1:j]))
