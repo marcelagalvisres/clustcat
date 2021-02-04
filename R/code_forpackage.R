@@ -27,7 +27,7 @@ validate_cat = function(data,categ_thr,smp_size){
   return(data)
 }
 
-data = validate_cat(datac,10,0.1)
+
 
 
 #' @title ordered_cat
@@ -327,4 +327,3 @@ clustered_model = function(data,j,smp_size,itgrasp){
 
   return(final_data)
 }
-clustered_model(data=data,j=8,smp_size = 0.7,itgrasp = 10)
