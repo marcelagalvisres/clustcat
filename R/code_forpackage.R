@@ -1,7 +1,39 @@
+#' @title validate_cat
+#' @description Make sure that all categorical variable have enough observations to allow for representation in training and testing samples
+#' @param data a data.frame with categorical and continuous variables and a binary response (in that order)
+#' @param categ_thr a minimum number of observations for each category
+#' @param smp_size percentage of observations to use in training, values from 0 to 1
+#' @details This is a data preprocessing step necessary for the clustering algorithm to work. For more details see
+#' Carrizosa, E., Galvis Restrepo, M., and Romero Morales, D. (2019). On clustering categories of categorical predictors in generalized linear models. Working paper, Copenhagen Business School.
+#' @export
+
+validate_cat = function(data,categ_thr,smp_size){
+  j= ncol(Filter(is.factor,data))
+  smp_size = floor(smp_size*nrow(data))
+  train_ind <- sample(seq_len(nrow(data)), size = smp_size)
+  train <- data[train_ind, ]
+  test <- data[-train_ind, ]
+
+  for(i in 1:j){
+    data[,(ncol(data)+1)] = table(data[,i])[data[,i]]
+  }
+
+  newdata = data
+  for(i in (ncol(train)+1):ncol(newdata)){
+    newdata <- newdata[which(newdata[,i]>categ_thr),]
+  }
+
+  data = newdata[,1:ncol(train)]
+  return(data)
+}
+
+data = validate_cat(datac,10,0.1)
+
+
 #' @title ordered_cat
 #' @description A method to cluster categorical variables using Logistic regression.
 #' @param data a data.frame with categorical and continuous variables and a binary response (in that order)
-#' @param train a random sample from data
+#' @param smp_size a random sample from data
 #' @param j the number of categorical variables in the dataset
 #' @details There are three functions, ordered_categ gives the order of the categorical variables given by the order of the coefficients of a logistic regression
 #' feasible_clusterings gives a set of feasible ways to cluster together the categories of the categorical variables in two groups each (one dummy), clustered_model
@@ -19,7 +51,14 @@
 
 
 ####1.a. Extract coefficients#####
-ordered_categ <- function(train,j,data) {
+j=8
+smp_size=0.1
+ordered_categ <- function(data,j,smp_size) {
+
+  smp_size = floor(smp_size*nrow(data))
+  train_ind <- sample(seq_len(nrow(data)), size = smp_size)
+  train <- data[train_ind, ]
+  test <- data[-train_ind, ]
   model = glm(Y~.,train,family="binomial",maxit=100)
   coef =  setDT(data.frame(coef(summary(model))), keep.rownames= TRUE)[]
   coef = coef[,1:2]
@@ -53,7 +92,7 @@ ordered_categ <- function(train,j,data) {
 #' @title feasible_clusterings
 #' @description A method to cluster categorical variables using Logistic regression.
 #' @param data a data.frame with categorical and continuous variables and a binary response (in that order)
-#' @param train a random sample from data
+#' @param smp_size a random sample from data
 #' @param j the number of categorical variables in the dataset
 #' @details There are three functions, ordered_categ gives the order of the categorical variables given by the order of the coefficients of a logistic regression
 #' feasible_clusterings gives a set of feasible ways to cluster together the categories of the categorical variables in two groups each (one dummy), clustered_model
@@ -67,10 +106,10 @@ ordered_categ <- function(train,j,data) {
 #' @export
 #Generate a dataset with continuous and categorical variables
   #Creating feasible clusterings
-feasible_clusterings = function(train,j,data){
+feasible_clusterings = function(data,j,smp_size){
   X = dummy_cols(data.frame(data[,1:j]))
   X = X[,(j+1):ncol(X)]
-  categorical_vars = ordered_categ(train,j,data)
+  categorical_vars = ordered_categ(data,j,smp_size)
   colnames(X) <- categorical_vars$var_names # Change the name for the ordered name
   X <- X[,sort(names(X[,1:ncol(X)]))]
   clustered <- X
@@ -105,8 +144,9 @@ feasible_clusterings = function(train,j,data){
 #' @title clustered_model
 #' @description A method to cluster categorical variables using Logistic regression.
 #' @param data a data.frame with categorical and continuous variables and a binary response (in that order)
-#' @param train a random sample from data
+#' @param smp_size a random sample from data
 #' @param j the number of categorical variables in the dataset
+#' @param itgrasp number of iterations of the grasp algorithm, recommended 50 iterations
 #' @details There are three functions, ordered_categ gives the order of the categorical variables given by the order of the coefficients of a logistic regression
 #' feasible_clusterings gives a set of feasible ways to cluster together the categories of the categorical variables in two groups each (one dummy), clustered_model
 #' gives the final dataset with the clustered categorical variables. For more details see
@@ -117,10 +157,14 @@ feasible_clusterings = function(train,j,data){
 #' dplyr
 #' MLmetrics
 #' @export
-#Generate a dataset with continuous and categorical variables
 ### This function creates the final dataset with the best clustered categorical variables###
-clustered_model = function(train,j,data){
-  clustered = feasible_clusterings(train,j,data)
+clustered_model = function(data,j,smp_size,itgrasp){
+  categorical_vars = ordered_categ(data,j,smp_size )
+  clustered = feasible_clusterings(data,j,smp_size)
+  smp_size = floor(smp_size*nrow(data))
+  train_ind <- sample(seq_len(nrow(data)), size = smp_size)
+  train <- data[train_ind, ]
+  test <- data[-train_ind, ]
   #1.d Data-frame with categories in the order given by our method####
   clusteredtrain = clustered[train_ind,]
   clusteredtest = clustered[-train_ind,]
@@ -128,18 +172,12 @@ clustered_model = function(train,j,data){
   data_orig = data
   set.seed(1234)
 
-
-
-  itgrasp <-200
-  var <-  names(Filter(is.factor, data[,1:(ncol(data)-1)]))
+  var <-  names( data[,1:j])
   acc = list(length(var))
-  categorical_vars = ordered_categ(train,j,data)
+
   categorical_vars=data.frame(categorical_vars[order(categorical_vars$var_names),])
   categorical_vars$levels = sub(".*_","",categorical_vars$variables)
   categorical_vars$vars = substr(categorical_vars$variables,1,2)
-
-  var = colnames(data[,1:length(var)])
-
 
   for(i in 1:length(var)){
     data[,i] = factor(data[,i],levels=categorical_vars[grepl(var[i],categorical_vars$vars),"levels"])
@@ -222,7 +260,6 @@ clustered_model = function(train,j,data){
     }
 
 
-
     tgrasp <- 3
     top = as.list(seq_along(best))
     for(i in seq_along(top)){
@@ -290,3 +327,4 @@ clustered_model = function(train,j,data){
 
   return(final_data)
 }
+clustered_model(data=data,j=8,smp_size = 0.7,itgrasp = 10)
