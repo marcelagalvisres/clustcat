@@ -1,3 +1,39 @@
+set.seed(12345)
+n <- 5000
+p <- 3
+j <- 2
+K_1 <- 5
+K_2 <- 7
+
+Z <- matrix(rnorm(n * p), n, p)
+colnames(Z) = paste0("Z",1:p)
+X1 <- as.factor(sample(letters[1:K_1], size = n, replace = TRUE))
+X2 <- as.factor(sample(letters[1:K_2], size = n, replace = TRUE))
+library(fastDummies)
+X = dummy_cols(data.frame(X1,X2))
+X = X[,(j+1):ncol(X)]
+X = X[,!grepl("_a",colnames(X))]
+data = data.frame(X,Z)
+data = data[,sort(names(data))]
+
+beta = c(rep(2,2),rep(-0.5,2),rep(1,3),rep(-1,3),0.03,-0.03,0.5)
+cbind(beta,colnames(data))
+data = as.matrix(data)
+
+
+xb = -0.5 + data %*% beta
+pr = 1/(1 + exp(-xb))
+summary(pr)
+Y = rbinom(n=n,size=1,prob=pr)
+table(Y)
+
+
+data = data.frame(X1,X2,Z,Y)
+categ_thr=10
+smp_size=0.7
+j=2
+itgrasp=100
+
 #' @title validate_cat
 #' @description Make sure that all categories of categorical variable have enough observations to allow for representation in training and testing samples
 #' @param data a data.frame, the categorical variables to be clustered should be factors, the rest of the variables including binary categorical should be numeric,
@@ -11,7 +47,7 @@
 validate_cat = function(data,categ_thr){
   if (colnames(data)[ncol(data)] != "Y") {stop("The response in not in the last column")}
   if (is.numeric(data[,ncol(data)])==FALSE) {stop("The response is not numeric")}
-  datac = data.frame(Filter(is.factor,datac),Filter(is.numeric,datac))
+  datac = data.frame(Filter(is.factor,data),Filter(is.numeric,data))
   j= ncol(Filter(is.factor,datac))
   names = colnames(datac)
   colnames(datac) = c(paste0("X",1:j),paste0("Z",1:(ncol(datac)-j-1)),"Y")
