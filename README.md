@@ -48,4 +48,4 @@ fesible = feasible_clusterings(data,j=2,smp_size=0.7,categ_thr=10) #create feasi
 data_final = clustered_model(data,j=2,categ_thr=10,smp_size=0.7,itgrasp=100) #create dataset with the chosen feasible clusterings after GRASP algorithm
 ```
 # References
-Carrizosa, E., Galvis Restrepo, M., and Romero Morales, D. (2020a).  On clustering categories of cate-gorical predictors in generalized linear models. Technical report, Copenhagen Business School, Frederiksberg, Denmark, https://www.researchgate.net/publication/349179679_On_Clustering_Categories_of_Categorical_Predictors_in_Generalized_Linear_Models.
+Carrizosa, E., Galvis Restrepo, M., and Romero Morales, D. (2020a).  On clustering categories of categorical predictors in generalized linear models. Technical report, Copenhagen Business School, Frederiksberg, Denmark, https://www.researchgate.net/publication/349179679_On_Clustering_Categories_of_Categorical_Predictors_in_Generalized_Linear_Models.
