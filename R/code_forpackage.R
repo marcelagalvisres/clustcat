@@ -50,7 +50,7 @@ validate_cat = function(data,categ_thr){
   datac = data.frame(Filter(is.factor,data),Filter(is.numeric,data))
   j= ncol(Filter(is.factor,datac))
   names = colnames(datac)
-  colnames(datac) = c(paste0("X",1:j),paste0("Z",1:(ncol(datac)-j-1)),"Y")
+  colnames(datac) = c(paste0("X",letters[1:j]),paste0("Z",1:(ncol(datac)-j-1)),"Y")
   namesnew = colnames(datac)
   cols = ncol(datac)
   for(i in 1:j){
@@ -153,9 +153,9 @@ ordered_categ <- function(data,j,categ_thr,smp_size) {
 #Generate a dataset with continuous and categorical variables
 #Creating feasible clusterings
 categ_thr=10
-smp_size=0.7
-j=2
-itgrasp=100
+smp_size=0.2
+j=13
+itgrasp=10
 feasible_clusterings = function(data,j,smp_size,categ_thr){
   data = validate_cat(data,categ_thr)[[1]]
   X = dummy_cols(data.frame(data[,1:j]))
