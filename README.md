@@ -1,6 +1,11 @@
 # clustcat: On clustering categories of categorical variables in GLM
 
-This package creates an alternative representation of the categorical variables in a dataset by clustering them using a logistic regression guided by out-of-sample accuracy as in Carrizosa etal. (2020)
+This package creates an alternative representation of the categorical variables in a dataset by clustering them using a logistic regression guided by out-of-sample accuracy as in https://www.sciencedirect.com/science/article/abs/pii/S0957417421006771
+
+The paper proposes a method to cluster categorical features in Generalized Linear Models.
+The proposed approach uses a numerical method guided by the learning performance.
+The underlying structure of the categories and their relationship is identified using proximity graphs.
+Complexity is reduced and accuracy results are competitive against benchmark one-hot encoding of categorical features.
 
 # To install this package, run the following command in R (assuming you have installed devtools).
 ```Rcode
