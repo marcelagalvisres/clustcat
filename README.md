@@ -2,11 +2,11 @@
 
 This package creates an alternative representation of the categorical variables in a dataset by clustering them using a logistic regression guided by out-of-sample accuracy. The full paper is available in: https://www.sciencedirect.com/science/article/abs/pii/S0957417421006771
 
-\begin{itemize}
-\item The proposed approach uses a numerical method guided by the learning performance.
-\item The underlying structure of the categories and their relationship is identified using proximity graphs.
-\item Complexity is reduced and accuracy results are competitive against benchmark one-hot encoding of categorical features.
-\end{itemize}
+
+* The proposed approach uses a numerical method guided by the learning performance.
+* The underlying structure of the categories and their relationship is identified using proximity graphs.
+* Complexity is reduced and accuracy results are competitive against benchmark one-hot encoding of categorical features.
+
 
 # To install this package, run the following command in R (assuming you have installed devtools).
 ```Rcode
@@ -48,10 +48,10 @@ data = data.frame(X1,X2,Z,Y)
 
 library(clustcat)
 
-validate = validate_cat(data,categ_thr=10)
-ordered = ordered_categ(data,j=2,smp_size=0.7,categ_thr=10) #extract the order for the categories
-fesible = feasible_clusterings(data,j=2,smp_size=0.7,categ_thr=10) #create feasible clusterings
-data_final = clustered_model(data,j=2,categ_thr=10,smp_size=0.7,itgrasp=100) #create dataset with the chosen feasible clusterings after GRASP algorithm
+validate = validate_cat(data,categ_thr=10) # This function makes the dataset ready for processing
+ordered = ordered_categ(data,j=2,smp_size=0.7,categ_thr=10) #extract the order for the categories # This function creates the dummies with the order of the coefficients
+fesible = feasible_clusterings(data,j=2,smp_size=0.7,categ_thr=10) #create feasible clusterings # This function creates feasible clusterings for each categorical predictor
+data_final = clustered_model(data,j=2,categ_thr=10,smp_size=0.7,itgrasp=100) #create dataset with the chosen feasible clusterings after GRASP algorithm # This function outputs the final dataset with the clustered categorical predictors (one dummy for each of them)
 ```
 # References
 Carrizosa, E., Restrepo, M. G., & Morales, D. R. (2021). On clustering categories of categorical predictors in generalized linear models. Expert Systems with Applications, 115245. https://doi.org/10.1016/j.eswa.2021.115245.
