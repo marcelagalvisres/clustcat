@@ -1,4 +1,4 @@
-# clustcat: On clustering categories of categorical variables in GLM
+# On clustering categories of categorical variables in GLM
 
 This package creates an alternative representation of the categorical variables in a dataset by clustering them using a logistic regression guided by out-of-sample accuracy. The full paper is available in: https://www.sciencedirect.com/science/article/abs/pii/S0957417421006771
 
@@ -54,4 +54,4 @@ fesible = feasible_clusterings(data,j=2,smp_size=0.7,categ_thr=10) #create feasi
 data_final = clustered_model(data,j=2,categ_thr=10,smp_size=0.7,itgrasp=100) #create dataset with the chosen feasible clusterings after GRASP algorithm
 ```
 # References
-Carrizosa, E., Galvis Restrepo, M., and Romero Morales, D. (2020a).  On clustering categories of categorical predictors in generalized linear models. Technical report, Copenhagen Business School, Frederiksberg, Denmark, https://www.researchgate.net/publication/349179679_On_Clustering_Categories_of_Categorical_Predictors_in_Generalized_Linear_Models.
+Carrizosa, E., Restrepo, M. G., & Morales, D. R. (2021). On clustering categories of categorical predictors in generalized linear models. Expert Systems with Applications, 115245. https://doi.org/10.1016/j.eswa.2021.115245.
