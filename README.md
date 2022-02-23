@@ -1,6 +1,6 @@
 # On clustering categories of categorical variables in GLM
 
-This package creates an alternative representation of the categorical variables in a dataset by clustering them using a logistic regression guided by out-of-sample accuracy. The full paper is available in: https://www.sciencedirect.com/science/article/abs/pii/S0957417421006771
+This package creates an alternative representation of the categorical variables in a dataset by clustering them using a logistic regression guided by out-of-sample accuracy. The full paper is available in: (https://doi.org/10.1016/j.eswa.2021.115245)
 
 
 * The proposed approach uses a numerical method guided by the learning performance.
