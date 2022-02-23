@@ -12,6 +12,7 @@ This package creates an alternative representation of the categorical variables 
 ```Rcode
 devtools::install_github("mgr-eco/clustcat")
 
+
 # Generate a dataset with continuous and categorical variables
 
 set.seed(12345)
