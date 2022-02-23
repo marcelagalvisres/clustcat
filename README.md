@@ -10,7 +10,7 @@ This package creates an alternative representation of the categorical variables 
 
 # To install this package, run the following command in R (assuming you have installed devtools).
 ```Rcode
-devtools::install_github("mgr-eco/clustcat")
+devtools::install_github("marcelagalvisres/clustcat")
 
 
 # Generate a dataset with continuous and categorical variables
