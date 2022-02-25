@@ -153,8 +153,8 @@ ordered_categ <- function(data,j,categ_thr,smp_size) {
 #Generate a dataset with continuous and categorical variables
 #Creating feasible clusterings
 categ_thr=10
-smp_size=0.2
-j=13
+smp_size=0.7
+j=2
 itgrasp=10
 feasible_clusterings = function(data,j,smp_size,categ_thr){
   data = validate_cat(data,categ_thr)[[1]]
